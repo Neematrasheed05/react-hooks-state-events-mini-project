@@ -1,6 +1,7 @@
 import React from "react";
 
 function CategoryFilter({ categories, selectedCategory, onCategoryChange }) {
+console.log(onCategoryChange)
   return (
     <div className="categories">
       <h5>Category filters</h5>
@@ -10,7 +11,7 @@ function CategoryFilter({ categories, selectedCategory, onCategoryChange }) {
           className={selectedCategory === "All" ? "selected" : ""}
           onClick={() => onCategoryChange("All")}
         >
-          All
+          ALL
         </button>
         {categories.map((category) => (
           <button

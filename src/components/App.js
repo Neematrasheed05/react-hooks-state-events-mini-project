@@ -10,15 +10,14 @@ function App() {
 
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
-
-    if (category === "All") {
+  
+    if (category === "ALL") {
       setFilteredTasks(TASKS);
     } else {
       const filteredTasks = TASKS.filter((task) => task.category === category);
       setFilteredTasks(filteredTasks);
     }
   };
-
   const handleTaskFormSubmit = (newTask) => {
     // Update the filteredTasks state with the new task
     if (selectedCategory === "All" || selectedCategory === newTask.category) {
