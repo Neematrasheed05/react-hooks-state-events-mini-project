@@ -1,27 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import Task from "./Task";
-import { TASKS } from "../data";
 
-function TaskList() {
-  const [tasks, setTasks] = useState(TASKS);
-
-  const handleTaskDelete = (text, category) => {
-    const updatedTasks = tasks.filter(
-      (task) => !(task.text === text && task.category === category)
-    );
-    setTasks(updatedTasks);
-    console.log(`Task deleted: ${text}, Category: ${category}`);
-  };
-
+function TaskList({tasks,deletedItem}) {
   return (
     <div className="tasks">
-      {tasks.map((task, index) => (
-        <Task
+      {/* display a list of tasks using Task component */}
+       {tasks.map((task,index)=>(
+        <Task 
+          deletedItem={deletedItem}
           key={index}
           text={task.text}
           category={task.category}
-          onDelete={handleTaskDelete}
-        />
+         />
       ))}
     </div>
   );

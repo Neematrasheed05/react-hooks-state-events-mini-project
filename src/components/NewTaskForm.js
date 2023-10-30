@@ -1,53 +1,38 @@
 import React, { useState } from "react";
 
-function NewTaskForm({ categories, onTaskFormSubmit }) {
-  const [formData, setFormData] = useState({
-    text: "",
-    category: categories[0], // Set the default category (e.g., "Code")
-  });
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    onTaskFormSubmit(formData);
-    setFormData({
-      text: "",
-      category: categories[0], // Reset to the default category
-    });
-  };
-
+function NewTaskForm({onTaskFormSubmit,categories}) {
+  
+  const [newItemFields, setNewItemFields]=useState({
+    text:'',
+    category:'Code'
+  })
+ 
+  function handleFields(e){
+    const{name,value}=e.target
+    setNewItemFields({...newItemFields,[name]:value})
+    
+  }
+  console.log(newItemFields)
+  
+  
   return (
-    <form className="new-task-form" onSubmit={handleSubmit}>
+    <form
+    onSubmit={(e)=>{
+      e.preventDefault()
+      onTaskFormSubmit(newItemFields)}}
+    className="new-task-form"
+    >
       <label>
         Details
-        <input
-          type="text"
-          name="text"
-          value={formData.text}
-          onChange={handleInputChange}
-        />
+        <input value={newItemFields.text} onChange={handleFields}  type="text" name="text" />
       </label>
       <label>
         Category
-        <select
-          name="category"
-          value={formData.category}
-          onChange={handleInputChange}
-        >
-          {categories
-            .filter((category) => category !== "All")
-            .map((category) => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            ))}
+        <select value={newItemFields.category} onChange={handleFields} name="category">
+          {/* render <option> elements for each category here */}
+          {categories.map((category,index)=>(
+            <option key={index}>{category}</option>
+          ))}
         </select>
       </label>
       <input type="submit" value="Add task" />

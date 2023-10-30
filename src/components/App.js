@@ -5,39 +5,42 @@ import TaskList from "./TaskList";
 import { CATEGORIES, TASKS } from "../data";
 
 function App() {
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [filteredTasks, setFilteredTasks] = useState(TASKS);
-
-  const handleCategoryChange = (category) => {
-    setSelectedCategory(category);
+  const [task, setTask] = useState(TASKS)
+  const [categories] = useState(CATEGORIES)
+  const [selectedCategoryButton, setSelectedCategoryButton] = useState('All')
   
-    if (category === "ALL") {
-      setFilteredTasks(TASKS);
-    } else {
-      const filteredTasks = TASKS.filter((task) => task.category === category);
-      setFilteredTasks(filteredTasks);
-    }
-  };
-  const handleTaskFormSubmit = (newTask) => {
-    // Update the filteredTasks state with the new task
-    if (selectedCategory === "All" || selectedCategory === newTask.category) {
-      setFilteredTasks([...filteredTasks, newTask]);
-    }
-  };
-
+  
+  function addNewItemtoList(newItem){
+    setTask([...task,newItem])
+  }
+  function deletedItem(deletedItem){
+    setTask(task.filter((item)=>item.text !== deletedItem))
+  }
+ 
+  const itemDisplayed = task
+  .filter(
+    (item)=>{ 
+    if(selectedCategoryButton==='All') return true
+    return selectedCategoryButton === item.category
+   } 
+   )
+  
+          
   return (
     <div className="App">
       <h2>My tasks</h2>
       <CategoryFilter
-        categories={CATEGORIES}
-        selectedCategory={selectedCategory}
-        onCategoryChange={handleCategoryChange}
+        categories={categories}
+        onButton={selectedCategoryButton}
+        selectedButton={setSelectedCategoryButton} 
       />
       <NewTaskForm
-        categories={CATEGORIES}
-        onTaskFormSubmit={handleTaskFormSubmit}
+        onTaskFormSubmit={addNewItemtoList}
+        categories={categories}
       />
-      <TaskList tasks={filteredTasks} />
+      <TaskList 
+        deletedItem={deletedItem}
+        tasks={itemDisplayed} />
     </div>
   );
 }
